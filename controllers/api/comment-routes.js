@@ -1,13 +1,12 @@
 const router = require('express').Router();
-const { Post } = require('../../models');
+const { Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-// CREATE new user
 router.post('/', withAuth, async (req, res) => {
     const body = req.body
     try {
-        const newPost = await Post.create({ ...body, user_id: req.session.user_id});
-        res.json(newPost);
+        const newComment = await Post.create({ ...body, user_id: req.session.user_id});
+        res.json(newComment);
 
 
     } catch (err) {
@@ -41,7 +40,6 @@ router.put('/:id', withAuth, async (req, res) => {
             return;
         }
 
-        // Once the user successfully logs in, set up the sessions variable 'loggedIn'
         req.session.save(() => {
             req.session.loggedIn = true;
 
