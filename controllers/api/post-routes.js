@@ -21,7 +21,7 @@ router.put('/:id', withAuth, async (req, res) => {
     try {
         const [affectedRows] = await Post.update(req.body, {
             where: {
-                user_id: req.body.user_id,
+                id: req.params.id,
             },
         });
 
@@ -32,23 +32,23 @@ router.put('/:id', withAuth, async (req, res) => {
             res.status(404).end();
         }
 
-        const validPassword = await dbUserData.checkPassword(req.body.password);
+        // const validPassword = await dbUserData.checkPassword(req.body.password);
 
-        if (!validPassword) {
-            res
-                .status(400)
-                .json({ message: 'Incorrect email or password. Please try again!' });
-            return;
-        }
+        // if (!validPassword) {
+        //     res
+        //         .status(400)
+        //         .json({ message: 'Incorrect email or password. Please try again!' });
+        //     return;
+        // }
 
-        // Once the user successfully logs in, set up the sessions variable 'loggedIn'
-        req.session.save(() => {
-            req.session.loggedIn = true;
+        // // Once the user successfully logs in, set up the sessions variable 'loggedIn'
+        // req.session.save(() => {
+        //     req.session.loggedIn = true;
 
-            res
-                .status(200)
-                .json({ user: dbUserData, message: 'You are now logged in!' });
-        });
+        //     res
+        //         .status(200)
+        //         .json({ user: dbUserData, message: 'You are now logged in!' });
+        // });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
